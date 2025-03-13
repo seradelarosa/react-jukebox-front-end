@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import * as trackService from './services/trackService.js';
 import TrackList from './components/TrackList/TrackList.jsx';
 import TrackDetail from './components/TrackDetail/TrackDetail.jsx';
+import TrackForm from './components/TrackForm/TrackForm.jsx';
 
 const App = () => {
   const [tracks, setTracks] = useState([]); // set initial state of tracks
   const [selected, setSelected] = useState(null); //track which track the user has selected, since this app doesnt use routing
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
 
@@ -29,14 +31,39 @@ const App = () => {
     setSelected(track)
   };
 
+  const handleFormView = () => {
+    setIsFormOpen(!isFormOpen);
+  };
+
+  const handleAddTrack = async (formData) => {
+    try {
+      const newTrack = await trackService.create(formData);
+
+      if (newTrack.error) {
+        throw new Error(newTrack.error);
+      }
+
+      setTracks([newTrack, ...tracks])
+      console.log(newTrack);
+      setIsFormOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
     <TrackList 
     tracks={tracks}
     handleSelect={handleSelect}
+    handleFormView={handleFormView}
+    isFormOpen={isFormOpen}
     />
-    <TrackDetail selected={selected}/>
+    {isFormOpen ? (
+      <TrackForm handleAddTrack={handleAddTrack}/>
+    ) : (
+      <TrackDetail selected={selected} />
+    )}
     </>
   )
 };
