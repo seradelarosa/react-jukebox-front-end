@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import * as trackService from './services/trackService.js';
 import TrackList from './components/TrackList/TrackList.jsx';
+import TrackDetail from './components/TrackDetail/TrackDetail.jsx';
 
 const App = () => {
   const [tracks, setTracks] = useState([]); // set initial state of tracks
+  const [selected, setSelected] = useState(null); //track which track the user has selected, since this app doesnt use routing
 
   useEffect(() => {
 
@@ -23,15 +25,19 @@ const App = () => {
     fetchTracks(); //putting this AFTER the definition of fetchTracks
   }, []);
 
-
-
-
-
-
+  const handleSelect = (track) => {
+    setSelected(track)
+  };
 
 
   return (
-    <TrackList tracks={tracks}/>
+    <>
+    <TrackList 
+    tracks={tracks}
+    handleSelect={handleSelect}
+    />
+    <TrackDetail selected={selected}/>
+    </>
   )
 };
 
