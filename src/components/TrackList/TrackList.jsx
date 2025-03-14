@@ -1,5 +1,4 @@
 const TrackList = (props) => {
-    console.log(props.tracks);
 
     return (
         <div>
@@ -10,20 +9,23 @@ const TrackList = (props) => {
                 ) : (
                     <ul>
                         {props.tracks.map((track) => (
-                            <li 
-                            key={track._id}
-                            style={{ cursor: 'pointer', color: "#646CFF" }}
-                            onClick={() => props.handleSelect(track)}
+                            <li
+                                key={track._id}
+                                style={{ cursor: 'pointer', color: "#646CFF" }}
+                                onClick={() => props.handleSelect(track)}
                             >
                                 {track.title} - {track.artist}
+                                <button onClick={() => props.handleFormView(props.selected)}>
+                                    Edit Track
+                                </button>
                             </li>
                         ))}
                     </ul>
                 )}
             </div>
             <button onClick={props.handleFormView}>
-                    {props.isFormOpen ? 'Cancel' : 'Add New Track'}
-                </button>
+                {props.isFormOpen ? 'Cancel' : 'Add New Track'}
+            </button>
         </div>
     );
 };
