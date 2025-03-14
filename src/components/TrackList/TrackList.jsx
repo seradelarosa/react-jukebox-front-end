@@ -18,6 +18,12 @@ const TrackList = (props) => {
                                 <button onClick={() => props.handleFormView(props.selected)}>
                                     Edit Track
                                 </button>
+                                {/* pass the id instead of the whole object */}
+                                {/* props.selected._id doesn't work because we arent selecting the track and then delete */}
+                                <button onClick={() => props.handleDeleteTrack(track._id)}>
+                                    Delete Track
+                                </button>
+
                             </li>
                         ))}
                     </ul>

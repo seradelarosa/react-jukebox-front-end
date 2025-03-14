@@ -70,6 +70,26 @@ const App = () => {
       console.log(error);
     };
   };
+  
+  const handleDeleteTrack = async (trackId) => {
+    try {
+      console.log("trackId received in handleDeleteTrack:", trackId);
+
+      const deletedTrack = await trackService.deleteTrack(trackId);
+      console.log(deletedTrack);
+
+      if (deletedTrack.error) {
+        throw new Error(deletedTrack.error);
+      };
+
+      setTracks((prevTracks) => prevTracks.filter((track) => track._id !== trackId));
+
+      setSelected(null);
+      setIsFormOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -78,6 +98,8 @@ const App = () => {
         handleSelect={handleSelect}
         handleFormView={handleFormView}
         isFormOpen={isFormOpen}
+        selected={selected}
+        handleDeleteTrack={handleDeleteTrack}
       />
       {isFormOpen ? (
         <TrackForm

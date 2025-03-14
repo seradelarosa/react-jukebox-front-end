@@ -42,8 +42,23 @@ const update = async(formData, trackId) => {
     };
 }
 
+const deleteTrack = async(trackId) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${trackId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        return res.json();
+    } catch (error) {
+        console.log(error);
+    };
+};
+
 export {
     index, 
     create,
     update,
+    deleteTrack
 };
