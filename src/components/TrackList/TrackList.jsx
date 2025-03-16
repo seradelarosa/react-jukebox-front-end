@@ -23,7 +23,9 @@ const TrackList = (props) => {
                                 <button onClick={() => props.handleDeleteTrack(track._id)}>
                                     Delete Track
                                 </button>
-
+                                <button>
+                                    Play
+                                </button>
                             </li>
                         ))}
                     </ul>

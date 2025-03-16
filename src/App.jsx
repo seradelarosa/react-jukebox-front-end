@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import * as trackService from './services/trackService.js';
 import TrackList from './components/TrackList/TrackList.jsx';
-import TrackDetail from './components/TrackDetail/TrackDetail.jsx';
 import TrackForm from './components/TrackForm/TrackForm.jsx';
+import NowPlaying from './components/NowPlaying/NowPlaying.jsx';
 
 const App = () => {
   const [tracks, setTracks] = useState([]); // set initial state of tracks
@@ -108,10 +108,7 @@ const App = () => {
           handleUpdateTrack={handleUpdateTrack}
         />
       ) : (
-        <TrackDetail
-          selected={selected}
-          handleFormView={handleFormView}
-        />
+        <NowPlaying selected={selected}/>
       )}
     </>
   )
@@ -119,3 +116,7 @@ const App = () => {
 
 export default App;
 
+// <TrackDetail
+        //   selected={selected}
+        //   handleFormView={handleFormView}
+        // />
