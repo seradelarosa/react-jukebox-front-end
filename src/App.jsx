@@ -8,6 +8,7 @@ const App = () => {
   const [tracks, setTracks] = useState([]); // set initial state of tracks
   const [selected, setSelected] = useState(null); //track which track the user has selected, since this app doesnt use routing
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [playingTrackId, setPlayingTrackId] = useState(null);
 
   useEffect(() => {
 
@@ -33,6 +34,11 @@ const App = () => {
 
   const handleFormView = (track) => {
     setIsFormOpen(!isFormOpen);
+
+    // if opening the form for a new track, clear `selected`
+    if (!isFormOpen) {
+      setSelected(null);
+  }
   };
 
   const handleAddTrack = async (formData) => {
@@ -59,10 +65,10 @@ const App = () => {
         throw new Error(updatedTrack.error);
       }
 
-      setTracks((prevTracks) => [...prevTracks.map((track) => 
+      setTracks((prevTracks) => [...prevTracks.map((track) =>
         track._id === trackId ? updatedTrack : track
-      )]);      
-      
+      )]);
+
       setIsFormOpen(false);
       setSelected(updatedTrack);
 
@@ -70,7 +76,7 @@ const App = () => {
       console.log(error);
     };
   };
-  
+
   const handleDeleteTrack = async (trackId) => {
     try {
       console.log("trackId received in handleDeleteTrack:", trackId);
@@ -91,6 +97,10 @@ const App = () => {
     }
   };
 
+  const handlePlayPause = (trackId) => {
+    setPlayingTrackId((prev) => (prev === trackId ? null : trackId));
+  };
+
   return (
     <>
       <TrackList
@@ -100,6 +110,8 @@ const App = () => {
         isFormOpen={isFormOpen}
         selected={selected}
         handleDeleteTrack={handleDeleteTrack}
+        handlePlayPause={handlePlayPause}
+        playingTrackId={playingTrackId}
       />
       {isFormOpen ? (
         <TrackForm
@@ -108,7 +120,10 @@ const App = () => {
           handleUpdateTrack={handleUpdateTrack}
         />
       ) : (
-        <NowPlaying selected={selected}/>
+        <NowPlaying 
+        playingTrackId={playingTrackId}
+        tracks={tracks}
+        />
       )}
     </>
   )
@@ -117,6 +132,6 @@ const App = () => {
 export default App;
 
 // <TrackDetail
-        //   selected={selected}
-        //   handleFormView={handleFormView}
-        // />
+//   selected={selected}
+//   handleFormView={handleFormView}
+// />

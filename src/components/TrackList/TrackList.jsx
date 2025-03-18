@@ -23,8 +23,12 @@ const TrackList = (props) => {
                                 <button onClick={() => props.handleDeleteTrack(track._id)}>
                                     Delete Track
                                 </button>
-                                <button>
-                                    Play
+                                {/* handlePlayPause is called,  which sets playingTrackId in app.jsx to the tracks id */}
+                                {/* when the playingTrackId is updated, it re-renders with that track's details */}
+                                <button onClick={() => props.handlePlayPause(track._id)}>
+                                    {props.playingTrackId === track._id ? 'Pause' : 'Play'}
+                                    {/* clicking pause sets playingTrackId to null */}
+                                    {/* NowPlaying.jsx sees that it is null and hides the details */}
                                 </button>
                             </li>
                         ))}
